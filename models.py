@@ -483,7 +483,7 @@ class ClsModel(object):
             return np.mean(accs)
 
     def save(self):
-        self.saver.save(self.session, "model.chk")
+        self.saver.save(self.session, "./model.chk")
 
     def restore(self, path):
         self.saver.restore(self.session, path)
