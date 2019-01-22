@@ -77,7 +77,7 @@ class BirdsTask():
             data_classes[fold] = classes
 
             instances = {cls: [] for cls in classes}
-            for key in self.features.keys():
+            for key in list(self.features.keys()):
                 cls, inst = key.split("/")
                 if cls in instances:
                     instances[cls].append(key)
@@ -97,7 +97,7 @@ class BirdsTask():
         self.val_insts = data_insts["val"]
         self.test_insts = data_insts["test"]
 
-        self.n_features = self.features[self.features.keys()[0]].size
+        self.n_features = self.features[list(self.features.keys())[0]].size
 
     def sample_train(self, n_batch, augment):
         assert not augment

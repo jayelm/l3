@@ -30,12 +30,12 @@ def main():
 
             batch = task.sample_train(FLAGS.n_batch)
             e_acc = model.predict(batch)
-            print("[loss]    %01.4f" % e_loss)
-            print("[trn_acc] %01.4f" % e_acc)
+            print(("[loss]    %01.4f" % e_loss))
+            print(("[trn_acc] %01.4f" % e_acc))
 
             v_batch = task.sample_val()
             e_v_acc = model.predict(v_batch)
-            print("[val_acc] %01.4f" % e_v_acc)
+            print(("[val_acc] %01.4f" % e_v_acc))
             print("")
 
             if i_epoch % 10 == 0:
@@ -48,8 +48,8 @@ def main():
         t_batch = task.sample_test()
         e_t_acc = model.predict(t_batch)
 
-        print("[FINAL val_acc] %01.4f" % e_v_acc)
-        print("[FINAL tst_acc] %01.4f" % e_t_acc)
+        print(("[FINAL val_acc] %01.4f" % e_v_acc))
+        print(("[FINAL tst_acc] %01.4f" % e_t_acc))
 
     if FLAGS.vis:
         v_batch = task.sample_val()

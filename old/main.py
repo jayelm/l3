@@ -11,7 +11,7 @@ import tensorflow as tf
 dataset = regex2
 
 model = Model3("model", dataset)
-print "built model"
+print("built model")
 
 optimizer = tf.train.AdamOptimizer(0.001)
 o_train = optimizer.minimize(model.t_loss)
@@ -39,9 +39,9 @@ for i_epoch in range(1000):
     #e_acc = np.mean([p == d.label for p, d in zip(preds, batch)])
     #e_acc = 0.
 
-    print "%01.3f %01.3f" % (e_loss, e_acc)
-    print "%01.3f" % t_acc
-    print
+    print("%01.3f %01.3f" % (e_loss, e_acc))
+    print("%01.3f" % t_acc)
+    print()
 
     #test_data = dataset.sample_test()
     #samp = model.sample(test_data, session)

@@ -45,8 +45,8 @@ with tf.Session() as session:
     init_fn(session)
 
     for fold in ("train", "val", "test", "val_same", "test_same"):
-        print fold
-        print "EXAMPLES"
+        print(fold)
+        print("EXAMPLES")
         with open("%s/examples.npy" % fold) as ex_f:
             ex = np.load(ex_f)
         n_inp = ex.shape[0]
@@ -54,7 +54,7 @@ with tf.Session() as session:
         ex_feats = np.zeros((n_inp, n_ex, N_FEATS))
         for i in range(0, n_inp, BATCH_SIZE/10):
             if i % 1000 == 0:
-                print i
+                print(i)
             batch = ex[i:i+BATCH_SIZE/10, ...]
             n_batch = batch.shape[0]
             batch = batch.reshape((n_batch * n_ex, batch.shape[2],
@@ -64,14 +64,14 @@ with tf.Session() as session:
             ex_feats[i:i+BATCH_SIZE/10, ...] = feats
         np.save("%s/examples.feats.npy" % fold, ex_feats)
 
-        print "INPUTS"
+        print("INPUTS")
         with open("%s/inputs.npy" % fold) as inp_f:
             inp = np.load(inp_f)
         n_inp = inp.shape[0]
         inp_feats = np.zeros((n_inp, N_FEATS))
         for i in range(0, n_inp, BATCH_SIZE):
             if i % 1000 == 0:
-                print i
+                print(i)
             batch = inp[i:i+BATCH_SIZE, ...]
             feats = session.run(t_output, {t_input: batch})
             feats = feats.reshape((-1, N_FEATS))

@@ -202,10 +202,10 @@ class ShapeworldTask():
         hyp = " ".join(self.hint_vocab.get(w) for w in hyp[1:-1])
         os.mkdir(dest)
         with open(os.path.join(dest, "desc.txt"), "w") as desc_f:
-            print >>desc_f, "gold desc:", hint
-            print >>desc_f, "pred desc:", hyp
-            print >>desc_f, "gold label:", bool(datum.label)
-            print >>desc_f, "pred label:", bool(pred)
+            print("gold desc:", hint, file=desc_f)
+            print("pred desc:", hyp, file=desc_f)
+            print("gold label:", bool(datum.label), file=desc_f)
+            print("pred label:", bool(pred), file=desc_f)
         for i in range(datum.ex_inputs.shape[0]):
             scipy.misc.imsave(
                     os.path.join(dest, "ex_%d.png" % i),

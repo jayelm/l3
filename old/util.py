@@ -5,7 +5,7 @@ import tensorflow as tf
 class Struct:
     def __init__(self, **entries):
         rec_entries = {}
-        for k, v in entries.items():
+        for k, v in list(entries.items()):
             if isinstance(v, dict):
                 rv = Struct(**v)
             elif isinstance(v, list):
@@ -22,7 +22,7 @@ class Struct:
 
     def __str_helper(self, depth):
         lines = []
-        for k, v in self.__dict__.items():
+        for k, v in list(self.__dict__.items()):
             if isinstance(v, Struct):
                 v_str = v.__str_helper(depth + 1)
                 lines.append("%s:\n%s" % (k, v_str))

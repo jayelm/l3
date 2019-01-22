@@ -237,11 +237,11 @@ class Model3(object):
             pred = pred[:-1]
             accs.append(pred == gold)
             if i < 3:
-                print "".join(self.dataset.str_vocab.get(c) for c in pred[1:])
-                print "".join(self.dataset.hint_vocab.get(c) for c in hyps[i])
-                print "".join(self.dataset.str_vocab.get(c) for c in gold[1:])
-                print "".join(self.dataset.hint_vocab.get(c) for c in orig_batch[i].hint)
-                print
+                print("".join(self.dataset.str_vocab.get(c) for c in pred[1:]))
+                print("".join(self.dataset.hint_vocab.get(c) for c in hyps[i]))
+                print("".join(self.dataset.str_vocab.get(c) for c in gold[1:]))
+                print("".join(self.dataset.hint_vocab.get(c) for c in orig_batch[i].hint))
+                print()
         return np.mean(accs)
 
         #descriptions = self.sample(batch, session)
@@ -510,7 +510,7 @@ class Model1(object):
                     (l, 
                         np.dot(datum.features, f) 
                         / (np.linalg.norm(datum.features) * np.linalg.norm(f)))
-                    for l, f in self.exemplars.items()]
+                    for l, f in list(self.exemplars.items())]
             label = max(scores, key=lambda p: p[1])[0]
             out.append(label)
         return out

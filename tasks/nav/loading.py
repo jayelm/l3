@@ -1,7 +1,7 @@
 import sys, os, math, pickle, numpy as np, pdb
 #import torch
 from tqdm import tqdm
-import library
+from . import library
 #import environment.library as library
 
 
@@ -20,19 +20,19 @@ def load(mode, data, num_train, num_test):
         annotation_path = os.path.join(BASE_PATH, mode + '.p')
         test_maps = HUMAN_TEST_MAPS[mode]
 
-        print '\n<Data> Loading {} train environments with human annotations'.format(mode)
+        print('\n<Data> Loading {} train environments with human annotations'.format(mode))
         train = build_turk_observations_unified(turk_path, annotation_path, num_train, states, test_maps, test = False)
         
-        print '\n<Data> Loading {} test environments with human annotations'.format(mode)
+        print('\n<Data> Loading {} test environments with human annotations'.format(mode))
         test = build_turk_observations_unified(turk_path, annotation_path, num_test, states, test_maps, test = True)
          
     
     elif data == 'synthetic':
         raise RuntimeError('synthetic data is not cleaned up yet -- check back in a few days!')
-        layouts, objects, rewards, terminal, instructions, values, goals = build_reinforce_observations_unified(turk_path, range(num_train), states)
+        layouts, objects, rewards, terminal, instructions, values, goals = build_reinforce_observations_unified(turk_path, list(range(num_train)), states)
         pdb.set_trace()
 
-        val_layouts, val_objects, val_rewards, val_terminal, val_instructions, val_values, val_goals = decomposition.build_reinforce_observations_unified(args.test_path, range(args.num_test), states)
+        val_layouts, val_objects, val_rewards, val_terminal, val_instructions, val_values, val_goals = decomposition.build_reinforce_observations_unified(args.test_path, list(range(args.num_test)), states)
 
     return train, test
 
@@ -211,7 +211,7 @@ def reconstruct_goal(world):
     # pdb.set_trace()
     world = world.copy()
     ## indices for grass and puddle
-    background_inds = [obj['index'] for (name, obj) in library.objects.iteritems() if obj['background']]
+    background_inds = [obj['index'] for (name, obj) in library.objects.items() if obj['background']]
     ## background mask
     background = np.in1d(world, background_inds)
     background = background.reshape( (world.shape) )
@@ -421,7 +421,7 @@ def build_turk_observations_unified(data_path, turk_path, num_worlds, states, te
     goals_obs = []
 
     annotations = pickle.load( open(turk_path, 'rb') )
-    keys = annotations.keys()
+    keys = list(annotations.keys())
 
     count = 0
     if verbose:
@@ -458,7 +458,7 @@ def build_turk_observations_unified(data_path, turk_path, num_worlds, states, te
     # if count < num_worlds - 1:
         # print 'Only found {} annotations, breaking'.format(count)
     sys.stdout.flush()
-    print '<Data> Found {} annotations'.format(count)
+    print('<Data> Found {} annotations'.format(count))
     return state_obs, object_obs, reward_obs, terminal_obs, instruct_obs, value_obs, goals_obs
 
 
@@ -638,7 +638,7 @@ index_mapping is a dictionary from words --> indices
 '''
 def test_set_indices(test_set, index_fn, index_mapping):
     new_test = {}
-    for key, (state_obs, goal_obs, instruct_obs, values) in test_set.iteritems():
+    for key, (state_obs, goal_obs, instruct_obs, values) in test_set.items():
         instruct_inds = index_fn(instruct_obs, index_mapping)
         # print len(instruct_obs), instruct_inds.shape
         new_test[key] = (state_obs, goal_obs, instruct_obs, instruct_inds, values)
@@ -669,7 +669,7 @@ index_mapping is a dictionary from words --> indices
 '''
 def simulation_set_indices(test_set, index_fn, index_mapping):
     new_test = {}
-    for key, (state_obs, goal_obs, instruct_obs, values, mdps) in test_set.iteritems():
+    for key, (state_obs, goal_obs, instruct_obs, values, mdps) in test_set.items():
         instruct_inds = index_fn(instruct_obs, index_mapping)
         # print len(instruct_obs), instruct_inds.shape
         new_test[key] = (state_obs, goal_obs, instruct_obs, instruct_inds, values, mdps)

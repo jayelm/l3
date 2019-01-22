@@ -133,7 +133,7 @@ class Policy(object):
         return actions
 
     def train(self, transitions, ignore_hyp=False):
-        states, actions, _, rewards = zip(*transitions)
+        states, actions, _, rewards = list(zip(*transitions))
         features = [s.features for s in states]
         hint, hint_len = self.load_hint(states)
         feed_dict = {
@@ -224,20 +224,20 @@ class Policy(object):
                 adapt_means[k] = self._adapt_scores[k] / self._adapt_counts[k]
 
             if not self.ready:
-                print "TRANSITION"
+                print("TRANSITION")
                 self.ready = True
 
-                for k, v in sorted(self._adapt_counts.items(), 
+                for k, v in sorted(list(self._adapt_counts.items()), 
                         key=lambda x: adapt_means[x[0]]):
                     if FLAGS.infer_hyp:
-                        print (
+                        print((
                                 k,
                                 v,
                                 " ".join(self.task.vocab.get(w) for w in self._adapt_reprs[k[1]]),
                                 adapt_means[k]
-                                )
+                                ))
                     else:
-                        print (k, v, adapt_means[k])
+                        print((k, v, adapt_means[k]))
 
             new_states = []
             for state in states:

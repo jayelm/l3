@@ -3,7 +3,7 @@ from misc import util
 from collections import defaultdict
 from gflags import FLAGS
 import numpy as np
-import loading
+from . import loading
 
 from skimage.measure import block_reduce
 
@@ -201,11 +201,11 @@ class NavTask(object):
                 splits[fold, mode] = data
 
         final_templates = defaultdict(list)
-        for k, vv in templates.items():
+        for k, vv in list(templates.items()):
             counts = defaultdict(lambda: 0)
             for v in vv:
                 counts[v] += 1
-            for v, c in counts.items():
+            for v, c in list(counts.items()):
                 if c > 1:
                     final_templates[k].append(v)
         final_templates = dict(final_templates)
@@ -222,16 +222,16 @@ class NavTask(object):
                 group_tasks=True)
         self.test_ids = sorted(list(set(d.task_id for d in self.test)))
 
-        print "[n_train]", len(self.train)
-        print "[n_test]", len(self.test), "test"
+        print("[n_train]", len(self.train))
+        print("[n_test]", len(self.test), "test")
 
         samp = self.sample_train()
         self.n_features = samp.features.size
         self.n_tasks = n_train_tasks
         self.n_actions = ACTS
 
-        print "[task_ids]", n_train_tasks, "->", n_total_tasks
-        print "[n_vocab]", len(self.vocab)
+        print("[task_ids]", n_train_tasks, "->", n_total_tasks)
+        print("[n_vocab]", len(self.vocab))
 
     def _format_data(self, fold, insts, templates, task_id):
         terrains, objects, rewards, terminals, instructions, values, goals = insts
