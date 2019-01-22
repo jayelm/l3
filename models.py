@@ -2,24 +2,24 @@ from net import _mlp, _embed_dict, _linear
 from misc import util
 
 import scipy.misc
-import gflags
+from absl import flags
 import numpy as np
 import sys
 import tensorflow as tf
 import os
 
-FLAGS = gflags.FLAGS
+FLAGS = flags.FLAGS
 
 def _set_flags():
-    gflags.DEFINE_boolean("predict_hyp", False, "train to predict hypotheses")
-    gflags.DEFINE_boolean("infer_hyp", False, "use hypotheses at test time")
-    gflags.DEFINE_boolean("infer_by_likelihood", False, "use likelihood (rather than accuracy) to rank hypotheses")
-    gflags.DEFINE_boolean("use_true_hyp", False, "predict using ground-truth description")
-    gflags.DEFINE_integer("n_sample_hyps", 5, "number of hypotheses to sample")
-    gflags.DEFINE_float("learning_rate", 0.001, "learning rate")
-    gflags.DEFINE_string("restore", None, "model to restore")
-    gflags.DEFINE_boolean("use_true_eval", False, "score with true evaluation function")
-    gflags.DEFINE_boolean("use_task_hyp", False, "task as hypothesis")
+    flags.DEFINE_boolean("predict_hyp", False, "train to predict hypotheses")
+    flags.DEFINE_boolean("infer_hyp", False, "use hypotheses at test time")
+    flags.DEFINE_boolean("infer_by_likelihood", False, "use likelihood (rather than accuracy) to rank hypotheses")
+    flags.DEFINE_boolean("use_true_hyp", False, "predict using ground-truth description")
+    flags.DEFINE_integer("n_sample_hyps", 5, "number of hypotheses to sample")
+    flags.DEFINE_float("learning_rate", 0.001, "learning rate")
+    flags.DEFINE_string("restore", None, "model to restore")
+    flags.DEFINE_boolean("use_true_eval", False, "score with true evaluation function")
+    flags.DEFINE_boolean("use_task_hyp", False, "task as hypothesis")
 
 USE_IMAGES = False
 

@@ -3,21 +3,21 @@
 import models
 from models import ClsModel, SimModel
 
-import gflags
+from absl import flags
 import os
 import shutil
 import sys
 
-FLAGS = gflags.FLAGS
-gflags.DEFINE_boolean("train", False, "do a training run")
-gflags.DEFINE_boolean("test", False, "evaluate on held-out concepts")
-gflags.DEFINE_boolean("test_same", False, "evaluate on training concepts")
-gflags.DEFINE_boolean("vis", False, "generate output visualizations")
-gflags.DEFINE_integer("n_epochs", 0, "number of epochs to run for")
-gflags.DEFINE_integer("n_batch", 100, "batch size")
-gflags.DEFINE_boolean("augment", False, "data augmentation")
-gflags.DEFINE_string("task", "shapes", "which task to use")
-gflags.DEFINE_string("model", "cls", "which model to use")
+FLAGS = flags.FLAGS
+flags.DEFINE_boolean("train", False, "do a training run")
+flags.DEFINE_boolean("test", False, "evaluate on held-out concepts")
+flags.DEFINE_boolean("test_same", False, "evaluate on training concepts")
+flags.DEFINE_boolean("vis", False, "generate output visualizations")
+flags.DEFINE_integer("n_epochs", 0, "number of epochs to run for")
+flags.DEFINE_integer("n_batch", 100, "batch size")
+flags.DEFINE_boolean("augment", False, "data augmentation")
+flags.DEFINE_string("task", "shapes", "which task to use")
+flags.DEFINE_string("model", "cls", "which model to use")
 models._set_flags()
 
 def main():

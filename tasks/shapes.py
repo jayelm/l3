@@ -7,9 +7,9 @@ from PIL import Image
 import sys
 import json
 import scipy
-import gflags
+from absl import flags
 
-FLAGS = gflags.FLAGS
+FLAGS = flags.FLAGS
 
 USE_IMAGES = False
 #N_EX = 6
