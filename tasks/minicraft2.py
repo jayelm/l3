@@ -61,7 +61,7 @@ STOP = "</s>"
 
 RECIPES = {}
 HINTS = []
-for group in list(CRAFTS.values()):
+for group in CRAFTS.values():
     for goal in group:
         variants = goal.split("_")[1:]
         abstracted = re.sub(r"_[a-z]+", "_?", goal)
@@ -147,7 +147,7 @@ TRAIN_IDS = [i for i in range(len(HINTS)) if i not in TEST_IDS]
 #TRAIN_IDS = [len(HINTS)-1]
 
 N_ACTIONS = 6
-UP, DOWN, LEFT, RIGHT, USE, CRAFT = list(range(N_ACTIONS))
+UP, DOWN, LEFT, RIGHT, USE, CRAFT = range(N_ACTIONS)
 
 Minicraft2Task = namedtuple("Minicraft2Task", ["id", "goal", "hint"])
 
@@ -188,7 +188,7 @@ class Minicraft2World(object):
         self.ingredients = [self.index.index(k) for k in INGREDIENTS]
         self.recipes = {
             self.index.index(k): set(self.index.index(vv) for vv in v)
-            for k, v in list(RECIPES.items())
+            for k, v in RECIPES.items()
         }
         #print self.recipes
         #self.hints = [
@@ -385,7 +385,7 @@ class Minicraft2State(object):
             more = True
             while more:
                 more = False
-                for product, ingredients in list(self.world.recipes.items()):
+                for product, ingredients in self.world.recipes.items():
                     if all(new_inventory[ing] > 0 for ing in ingredients):
                         new_inventory[product] += 1
                         for ing in ingredients:

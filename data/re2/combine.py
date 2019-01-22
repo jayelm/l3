@@ -20,7 +20,7 @@ with open("templates.json") as template_f:
 
 with open("hints.json") as hint_f:
     hints = json.load(hint_f)
-    hints = {int(k): v for k, v in list(hints.items())}
+    hints = {int(k): v for k, v in hints.items()}
 
 annotations = []
 

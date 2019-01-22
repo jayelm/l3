@@ -19,12 +19,12 @@ with open("turk_data_3.csv", "w") as turk_f:
     header_labels += ["after_%d" % i for i in range(N_EX)]
     header_labels += ["test_before", "test_after"]
     header_labels += ["hint"]
-    print(",".join(header_labels), file=turk_f)
+    print >>turk_f, ",".join(header_labels)
 
     #for i, datum in enumerate(label_data):
     for i in range(2000, 3000):
         datum = label_data[i]
-        ref_before, ref_after = list(zip(*datum["examples"][:N_EX]))
+        ref_before, ref_after = zip(*datum["examples"][:N_EX])
         test_before, test_after = datum["examples"][N_EX]
         hints = []
         pat = datum["before"]
@@ -49,4 +49,4 @@ with open("turk_data_3.csv", "w") as turk_f:
             hint = "(no hint for this problem)"
 
         line = ",".join([str(i)] + before + after + [test_before, test_after, hint])
-        print(line, file=turk_f)
+        print >>turk_f, line

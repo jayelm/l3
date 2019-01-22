@@ -100,7 +100,7 @@ while len(data) < 5000:
     if not success:
         continue
 
-    print(len(data))
+    print len(data)
 
     data.append({"before": before, "after": after, "examples": matches})
 

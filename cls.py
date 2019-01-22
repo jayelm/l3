@@ -54,13 +54,13 @@ def main():
             vs_batch = task.sample_val(same=True)
             e_vs_acc = model.predict(vs_batch)
 
-            print(("[iter]    %d" % i_epoch))
-            print(("[loss]    %01.4f" % e_loss))
-            print(("[trn_acc] %01.4f" % e_acc))
-            print(("[val_acc] %01.4f" % e_v_acc))
-            print(("[val_same_acc] %01.4f" % e_vs_acc))
-            print(("[val_mean_acc] %01.4f" % ((e_v_acc + e_vs_acc) / 2)))
-            print()
+            print("[iter]    %d" % i_epoch)
+            print("[loss]    %01.4f" % e_loss)
+            print("[trn_acc] %01.4f" % e_acc)
+            print("[val_acc] %01.4f" % e_v_acc)
+            print("[val_same_acc] %01.4f" % e_vs_acc)
+            print("[val_mean_acc] %01.4f" % ((e_v_acc + e_vs_acc) / 2))
+            print
 
             if i_epoch % 10 == 0:
                 model.save()
@@ -72,8 +72,8 @@ def main():
         t_batch = task.sample_test(same=False)
         e_t_acc = model.predict(t_batch)
 
-        print(("[FINAL val_acc] %01.4f" % e_v_acc))
-        print(("[FINAL tst_acc] %01.4f" % e_t_acc))
+        print("[FINAL val_acc] %01.4f" % e_v_acc)
+        print("[FINAL tst_acc] %01.4f" % e_t_acc)
 
     if FLAGS.test_same:
         v_batch = task.sample_val(same=True)
@@ -82,8 +82,8 @@ def main():
         t_batch = task.sample_test(same=True)
         e_t_acc = model.predict(t_batch)
 
-        print(("[FINAL val_same_acc] %01.4f" % e_v_acc))
-        print(("[FINAL tst_same_acc] %01.4f" % e_t_acc))
+        print("[FINAL val_same_acc] %01.4f" % e_v_acc)
+        print("[FINAL tst_same_acc] %01.4f" % e_t_acc)
 
     if FLAGS.vis:
         v_batch = task.sample_val(same=True)

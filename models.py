@@ -573,7 +573,7 @@ class TransducerModel(object):
         inp_len = np.zeros((len(batch), n_input), dtype=np.int32)
         out = np.zeros((len(batch), n_input, max_out_len), dtype=np.int32)
         for i, datum in enumerate(batch):
-            examples = list(zip(datum.ex_inputs, datum.ex_outputs))
+            examples = zip(datum.ex_inputs, datum.ex_outputs)
             target_inp = datum.input
             target_out = datum.output
             if input_examples:
@@ -659,15 +659,15 @@ class TransducerModel(object):
                     worst_score[j] = score
 
         hyps = best_hyps
-        print(best_score, file=sys.stderr)
+        print >>sys.stderr, best_score
 
-        print("\n".join(" ".join(self.task.hint_vocab.get(c) for c in hyp) for hyp in hyps[:3]), file=sys.stderr)
-        print("\n".join(" ".join(self.task.hint_vocab.get(c) for c in hyp if c) for hyp in feed[self.t_hint][:3]), file=sys.stderr)
-        print(file=sys.stderr)
+        print >>sys.stderr, "\n".join(" ".join(self.task.hint_vocab.get(c) for c in hyp) for hyp in hyps[:3])
+        print >>sys.stderr, "\n".join(" ".join(self.task.hint_vocab.get(c) for c in hyp if c) for hyp in feed[self.t_hint][:3])
+        print >>sys.stderr
 
-        print("[found_gold]  %0.2f" % np.mean(found_gold))
-        print("[chose_gold]  %0.2f" % np.mean(chose_gold))
-        print("[found_exact] %0.2f" % np.mean(found_exact))
+        print "[found_gold]  %0.2f" % np.mean(found_gold)
+        print "[chose_gold]  %0.2f" % np.mean(chose_gold)
+        print "[found_exact] %0.2f" % np.mean(found_exact)
 
         return hyps
 
