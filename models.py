@@ -528,8 +528,8 @@ class TransducerModel(object):
             t_concept = t_enc_ex
 
         t_enc_input = _encode(
-                "encode_input", self.t_input, self.t_input_len, t_str_vecs,
-                t_init=t_concept)
+                "encode_ex", self.t_input, self.t_input_len, t_str_vecs,
+                t_init=t_concept, reuse=True)
 
         self.hyp_decoder = Decoder(
                 "decode_hyp", t_enc_ex, self.t_hint, self.t_last_hyp,
@@ -700,7 +700,7 @@ class TransducerModel(object):
             return np.mean(accs)
 
     def save(self):
-        self.saver.save(self.session, "model.chk")
+        self.saver.save(self.session, "./model.chk")
 
     def restore(self, path):
         self.saver.restore(self.session, path)

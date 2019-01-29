@@ -4,16 +4,16 @@ import models
 from models import TransducerModel
 from tasks import regex2
 
-import gflags
+from absl import flags
 import os
 import sys
 
-FLAGS = gflags.FLAGS
-gflags.DEFINE_boolean("train", False, "do a training run")
-gflags.DEFINE_boolean("test", False, "do a testing run")
-gflags.DEFINE_boolean("vis", False, "generate visualization output")
-gflags.DEFINE_integer("n_epochs", 0, "number of epochs to run for")
-gflags.DEFINE_integer("n_batch", 100, "batch size")
+FLAGS = flags.FLAGS
+flags.DEFINE_boolean("train", False, "do a training run")
+flags.DEFINE_boolean("test", False, "do a testing run")
+flags.DEFINE_boolean("vis", False, "generate visualization output")
+flags.DEFINE_integer("n_epochs", 0, "number of epochs to run for")
+flags.DEFINE_integer("n_batch", 100, "batch size")
 models._set_flags()
 
 def main():
