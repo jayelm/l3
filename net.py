@@ -38,13 +38,13 @@ def _embed_dict(t_in, emb_dict):
     t_embed = tf.nn.embedding_lookup(v, t_in)
     return t_embed
 
-def _mlp(t_in, widths, activations):
+def _mlp(t_in, widths, activations, reuse=False):
     assert len(t_in.get_shape()) in (2, 3)
     assert len(widths) == len(activations)
     prev_width = t_in.get_shape()[1]
     prev_layer = t_in
     for i_layer, (width, act) in enumerate(zip(widths, activations)):
-        with tf.variable_scope(str(i_layer)):
+        with tf.variable_scope(str(i_layer), reuse=reuse):
             layer = _linear(prev_layer, width)
             if act is not None:
                 layer = act(layer)
