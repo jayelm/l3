@@ -1,14 +1,14 @@
 from misc import util
 
 from collections import namedtuple
-import gflags
+from absl import flags
 import json
 import re
 import sys
 import os
 
-FLAGS = gflags.FLAGS
-gflags.DEFINE_string("hint_type", None, "hint format")
+FLAGS = flags.FLAGS
+flags.DEFINE_string("hint_type", None, "hint format")
 
 SEP = "@"
 START = "<"
