@@ -38,7 +38,7 @@ N_CONV3_FILTS = 32
 
 tf.set_random_seed(0)
 
-def _encode(name, t_input, t_len, t_vecs, t_init=None):
+def _encode(name, t_input, t_len, t_vecs, t_init=None, reuse=False):
     multi = len(t_input.get_shape()) == 3
     assert multi or len(t_input.get_shape()) == 2
     cell = tf.contrib.rnn.GRUCell(N_HIDDEN)
@@ -51,7 +51,7 @@ def _encode(name, t_input, t_len, t_vecs, t_init=None):
             t_init = tf.tile(tf.expand_dims(t_init, 1), (1, t_n_multi, 1))
             t_init = tf.reshape(t_init, (t_n_batch*t_n_multi, N_HIDDEN))
     t_embed = _embed_dict(t_input, t_vecs)
-    with tf.variable_scope(name):
+    with tf.variable_scope(name, reuse=reuse):
         _, t_encode = tf.nn.dynamic_rnn(
                 cell, t_embed, t_len, dtype=tf.float32, initial_state=t_init)
     if multi:
@@ -70,7 +70,7 @@ def _conv_layer(t_input, n_filts, n_size, i_layer):
     t_out = tf.nn.relu(t_trans)
     return t_out
 
-def _convolve(name, t_input, t_dropout):
+def _convolve(name, t_input, t_dropout, reuse=False):
     multi = len(t_input.get_shape()) == 5
     t_keep = 1 - t_dropout
     assert multi or len(t_input.get_shape()) == 4
@@ -80,7 +80,7 @@ def _convolve(name, t_input, t_dropout):
         t_w, t_h, t_c = t_input.get_shape()[2:]
         t_input = tf.reshape(t_input, (t_n_batch * t_n_multi, t_w.value, t_h.value, t_c.value))
 
-    with tf.variable_scope(name) as scope:
+    with tf.variable_scope(name, reuse=reuse) as scope:
         t_conv1 = _conv_layer(t_input, N_CONV1_FILTS, N_CONV1_SIZE, 1)
         t_pool1 = tf.layers.max_pooling2d(t_conv1, 4, 4)
         t_conv2 = _conv_layer(t_pool1, N_CONV2_FILTS, N_CONV2_SIZE, 2)
@@ -327,11 +327,12 @@ class ClsModel(object):
             t_concept = t_enc_ex
 
         if USE_IMAGES:
-            t_enc_input = _convolve("encode_input", self.t_input, self.t_dropout)
+            t_enc_input = _convolve("encode_ex", self.t_input, self.t_dropout, reuse=True)
         else:
-            with tf.variable_scope("encode_input"):
+            with tf.variable_scope("encode_ex", reuse=True):
                 t_enc_input = self.t_input
-                t_enc_input = _mlp(t_enc_input, (N_HIDDEN, N_HIDDEN), (tf.nn.relu, None))
+                t_enc_input = _mlp(t_enc_input, (N_HIDDEN, N_HIDDEN), (tf.nn.relu, None),
+                                   reuse=True)
 
         self.hyp_decoder = Decoder(
                 "decode_hyp", t_enc_ex, self.t_hint, self.t_last_hyp,
